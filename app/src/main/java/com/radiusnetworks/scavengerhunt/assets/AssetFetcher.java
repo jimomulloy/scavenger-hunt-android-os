@@ -108,6 +108,10 @@ public class AssetFetcher extends AsyncTask<Void, Void, Void> {
             } else {
                 conn = (HttpURLConnection) url.openConnection();
                 responseCode = conn.getResponseCode();
+                String contentType = conn.getContentType();
+                if (contentType == null || contentType.indexOf("text/html") == 0) {
+                    throw new RuntimeException("Invalid non-image content type: "+contentType);
+                }
                 Log.d(TAG, "response code is "+conn.getResponseCode());
             }
         }
